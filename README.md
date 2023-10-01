@@ -6,6 +6,8 @@ The pre-built firmware could be found in each target's folder.
 
 The pins/features-configurations are final, changes will only be done when forced by Micropython updates.
 
+There is a `NO_CONFLICT` version available, in which all available peripherals can work at the same time, except for `CAN1` and `I2C1`. However, since they share the same pins, they won't be running togather, hence no conflicts :D (problem solved!). Also the  pins definition below no longer holds for the `NO_CONFLICT` version.
+
 ## Pins definition
 
 Things that in `()` are not available in the pre-built firmware but they have their definitions in the `mpconfigboard.h` file. These are only my choices, you may use any other pins, which were sated in the comment as `Valid`. Default `USART-REPL` is on `USART6`.
