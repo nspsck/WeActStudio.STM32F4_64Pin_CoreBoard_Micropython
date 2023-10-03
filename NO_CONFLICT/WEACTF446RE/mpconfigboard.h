@@ -103,9 +103,9 @@
 
 // USRSW has no pullup or pulldown, and pressing the switch makes the input go low
 #define MICROPY_HW_USRSW_PIN        (pin_C13)
-#define MICROPY_HW_USRSW_PULL       (GPIO_PULLUP)
+#define MICROPY_HW_USRSW_PULL       (GPIO_NOPULL)
 #define MICROPY_HW_USRSW_EXTI_MODE  (GPIO_MODE_IT_RISING)
-#define MICROPY_HW_USRSW_PRESSED    (0)
+#define MICROPY_HW_USRSW_PRESSED    (1)
 
 // LEDs
 #define MICROPY_HW_LED1             (pin_B2) // blue
