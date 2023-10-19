@@ -10,7 +10,7 @@ There is a `NO_CONFLICT` version available, in which all available peripherals c
 
 ## Pins definition
 
-Things that in `()` are not available in the pre-built firmware but they have their definitions in the `mpconfigboard.h` file. These are only my choices, you may use any other pins, which were sated in the comment as `Valid`. Default `USART-REPL` is on `USART6`.
+Things that in `()` are not available in the pre-built firmware but they have their definitions in the `mpconfigboard.h` file. These are only my choices, you may use any other pins, which were sated in the comment as `Valid`. Default `USART-REPL` is on `USART6`. Note that `B11` is not available on both `F412RE` and `F446RE`.
 
 ### Common
 
