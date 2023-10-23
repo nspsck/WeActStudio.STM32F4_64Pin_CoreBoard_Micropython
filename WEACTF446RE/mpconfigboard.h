@@ -22,11 +22,12 @@
 #define MICROPY_HW_ENABLE_SDCARD    (1)
 #define MICROPY_HW_ENABLE_MMCARD    (0)
 
-// HSE is 8MHz, this gives 168MHz sysclock and 48MHz for USB.
+// HSE is 8MHz, this gives 180MHz sysclock and 48MHz for USB.
 #define MICROPY_HW_CLK_PLLM         (8)
-#define MICROPY_HW_CLK_PLLN         (336)
-#define MICROPY_HW_CLK_PLLP         (RCC_PLLP_DIV2)
-#define MICROPY_HW_CLK_PLLQ         (7)
+#define MICROPY_HW_CLK_PLLN         (360)
+#define MICROPY_HW_CLK_PLLP         (RCC_PLLP_DIV4)
+#define MICROPY_HW_CLK_PLLQ         (15)
+#define MICROPY_HW_CLK_PLLR         (4)
 
 // Pyboard lite has an optional 32kHz crystal
 #define MICROPY_HW_RTC_USE_LSE      (1)
