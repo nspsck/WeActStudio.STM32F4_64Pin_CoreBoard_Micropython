@@ -2,7 +2,7 @@
 
 This port gives you a py-board-like experience using the STM32F446RE, STM32F412RE and STM32F405RG core boards created by WeAct Studio.
 
-The pre-built firmware could be found in each target's folder.
+The pre-built firmware could be found in each target's folder. (`NO_CONFLICT` version only.)
 
 The pins/features-configurations are final, changes will only be done when forced by Micropython updates.
 
