@@ -2,8 +2,6 @@ MCU_SERIES = f4
 CMSIS_MCU = STM32F412Zx
 AF_FILE = boards/stm32f412_af.csv
 LD_FILES = boards/WEACTF412RE/stm32f412re.ld boards/common_ifs.ld
-TEXT0_ADDR = 0x08000000
-TEXT1_ADDR = 0x08028000
 
 # Provide different variants for the downloads page.
 ifeq ($(BOARD_VARIANT),DP)
@@ -23,3 +21,5 @@ ifeq ($(BOARD_VARIANT),NETWORK)
 MICROPY_PY_NETWORK_WIZNET5K=5200
 endif
 
+# Micropython settings.
+MICROPY_VFS_LFS2 = 1

@@ -13,6 +13,13 @@
 #define MICROPY_HW_HAS_SWITCH       (1)
 #define MICROPY_HW_HAS_MMA7660      (0)
 #define MICROPY_HW_HAS_LCD          (0)
+// Although, there is a block called RNG on the picture at ST official site:
+// https://www.st.com/en/microcontrollers-microprocessors/stm32f446re.html
+// how ever, according to:
+// https://www.st.com/resource/en/application_note/an4230-random-number-generation-validation-using-nist-statistical-test-suite-for-stm32-microcontrollers-stmicroelectronics.pdf
+// The RNG peripheral is non-exsistance on the F446 series.
+// The registers in stm32f446xx.h confirms this.
+#define MICROPY_HW_ENABLE_RNG       (0)
 #define MICROPY_HW_ENABLE_RTC       (1)
 #define MICROPY_HW_ENABLE_SERVO     (1) // PA0-PA3, you might want to disable USART2
 #define MICROPY_HW_ENABLE_ADC       (1)
@@ -22,11 +29,12 @@
 #define MICROPY_HW_ENABLE_SDCARD    (1)
 #define MICROPY_HW_ENABLE_MMCARD    (0)
 
-// HSE is 8MHz, this gives 168MHz sysclock and 48MHz for USB.
-#define MICROPY_HW_CLK_PLLM         (8)
-#define MICROPY_HW_CLK_PLLN         (336)
-#define MICROPY_HW_CLK_PLLP         (RCC_PLLP_DIV2)
-#define MICROPY_HW_CLK_PLLQ         (7)
+// HSE is 8MHz, this gives 180MHz sysclock and 48MHz for USB.
+#define MICROPY_HW_CLK_PLLM         (4)
+#define MICROPY_HW_CLK_PLLN         (360) // Tho, this is not allowed in the CubeMX software.
+#define MICROPY_HW_CLK_PLLP         (RCC_PLLP_DIV4)
+#define MICROPY_HW_CLK_PLLQ         (15)
+#define MICROPY_HW_CLK_PLLR         (4)
 
 // Pyboard lite has an optional 32kHz crystal
 #define MICROPY_HW_RTC_USE_LSE      (1)
@@ -34,14 +42,14 @@
 #define MICROPY_HW_RTC_USE_CALOUT   (1)
 
 // UART config, 
-// USART1, USART2 and USART6 are unipin across all 3 definitions.
+// USART2 and USART6 are unipin across all 3 definitions.
 // USARTs
 #define MICROPY_HW_UART1_TX         (pin_A9) // Valid: PA9, PB6
 #define MICROPY_HW_UART1_RX         (pin_A10) // Valid: PA10, PB7
 #define MICROPY_HW_UART2_TX         (pin_A2) // Valid: PA2
 #define MICROPY_HW_UART2_RX         (pin_A3) // Valid: PA3
-#define MICROPY_HW_UART3_TX         (pin_B10) // Valid: PB10, PC10
-#define MICROPY_HW_UART3_RX         (pin_C5) // Valid: PC11, PC5
+// #define MICROPY_HW_UART3_TX         (pin_B10) // Valid: PB10, PC10
+// #define MICROPY_HW_UART3_RX         (pin_C5) // Valid: PC11, PC5
 #define MICROPY_HW_UART6_TX         (pin_C6) // Valid: PA11, PC6
 #define MICROPY_HW_UART6_RX         (pin_C7) // Valid: PA12, PC7
 // UARTs
@@ -51,7 +59,7 @@
 // #define MICROPY_HW_UART5_TX         (pin_C12) // Valid: PC12
 // #define MICROPY_HW_UART6_RX         (pin_D2) // Valid: PD2
 
-#define MICROPY_HW_UART_REPL        PYB_UART_6
+#define MICROPY_HW_UART_REPL        PYB_UART_1
 #define MICROPY_HW_UART_REPL_BAUD   115200
 
 // I2C buses
@@ -62,7 +70,7 @@
 #define MICROPY_HW_I2C2_SCL         (pin_B10) // Valid: PB10
 #define MICROPY_HW_I2C2_SDA         (pin_B3) // Valid: PB3, PC12
 // Disabled because PA8 is taken by SD Card.
-// #define MICROPY_HW_I2C3_SCL         (pin_A8) // Valid: 
+// #define MICROPY_HW_I2C3_SCL         (pin_A8) // Valid: A8
 // #define MICROPY_HW_I2C3_SDA         (pin_B4) // Valid: PB4, PC9
 
 // SPI buses
@@ -76,17 +84,17 @@
 #define MICROPY_HW_SPI2_MISO        (pin_B14) // Valid: PB14, PC2
 #define MICROPY_HW_SPI2_MOSI        (pin_B15) // Valid: PB15, PC1, PC3
 // Currently interferes with I2C2 and CAN2.
-#define MICROPY_HW_SPI3_NSS         (pin_A15) // Valid: PA4, PA15
-#define MICROPY_HW_SPI3_SCK         (pin_B3) // Valid: PB3, PC10
-#define MICROPY_HW_SPI3_MISO        (pin_B4) // Valid: PB4, PC11
-#define MICROPY_HW_SPI3_MOSI        (pin_B5) // Valid: PB0, PB2, PB5, PC1, PC12
+// #define MICROPY_HW_SPI3_NSS         (pin_A15) // Valid: PA4, PA15
+// #define MICROPY_HW_SPI3_SCK         (pin_B3) // Valid: PB3, PC10
+// #define MICROPY_HW_SPI3_MISO        (pin_B4) // Valid: PB4, PC11
+// #define MICROPY_HW_SPI3_MOSI        (pin_B5) // Valid: PB0, PB2, PB5, PC1, PC12
 
 // CAN buses
 #define MICROPY_HW_CAN1_TX          (pin_B9) // Valid: PA12, PB9
 #define MICROPY_HW_CAN1_RX          (pin_B8) // Valid: PA11, PB8
 // Currently interferes with SPI3.
-#define MICROPY_HW_CAN2_TX          (pin_B6) // Valid: PB6, PB13
-#define MICROPY_HW_CAN2_RX          (pin_B5) // Valid: PB5, PB12
+// #define MICROPY_HW_CAN2_TX          (pin_B6) // Valid: PB6, PB13
+// #define MICROPY_HW_CAN2_RX          (pin_B5) // Valid: PB5, PB12
 
 // SD Card SDMMC
 #define MICROPY_HW_SDCARD_CK        (pin_C12)

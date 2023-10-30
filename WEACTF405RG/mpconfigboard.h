@@ -35,7 +35,7 @@
 #define MICROPY_HW_RTC_USE_CALOUT   (1)
 
 // UART config, 
-// USART1, USART2 and USART6 are unipin across all 3 definitions.
+// USART2 and USART6 are unipin across all 3 definitions.
 // USARTs
 #define MICROPY_HW_UART1_TX         (pin_A9) // Valid: PA9, PB6
 #define MICROPY_HW_UART1_RX         (pin_A10) // Valid: PA10, PB7
@@ -52,7 +52,7 @@
 // #define MICROPY_HW_UART5_TX         (pin_C12) // Valid: PC12
 // #define MICROPY_HW_UART5_RX         (pin_D2) // Valid: PD2
 
-#define MICROPY_HW_UART_REPL        PYB_UART_6
+#define MICROPY_HW_UART_REPL        PYB_UART_1
 #define MICROPY_HW_UART_REPL_BAUD   115200
 
 // I2C buses
@@ -85,8 +85,8 @@
 #define MICROPY_HW_CAN1_TX          (pin_B9) // Valid: PA12, PB9
 #define MICROPY_HW_CAN1_RX          (pin_B8) // Valid: PA11, PB8
 // Currently interferes with SPI3.
-#define MICROPY_HW_CAN2_TX          (pin_B6) // Valid: PB6, PB13
-#define MICROPY_HW_CAN2_RX          (pin_B5) // Valid: PB5, PB12
+// #define MICROPY_HW_CAN2_TX          (pin_B6) // Valid: PB6, PB13
+// #define MICROPY_HW_CAN2_RX          (pin_B5) // Valid: PB5, PB12
 
 // SD Card SDMMC
 #define MICROPY_HW_SDCARD_CK        (pin_C12)

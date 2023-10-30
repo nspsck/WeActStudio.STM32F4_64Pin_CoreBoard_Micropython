@@ -6,11 +6,9 @@ The pre-built firmware could be found in each target's folder.
 
 The pins/features-configurations are final, changes will only be done when forced by Micropython updates.
 
-There is a `NO_CONFLICT` version available, in which all available peripherals can work at the same time, except for `CAN1` and `I2C1`. However, since they share the same pins, they won't be running togather, hence no conflicts :D (problem solved!). Also the  pins definition below no longer holds for the `NO_CONFLICT` version.
-
 ## Pins definition
 
-Things that in `()` are not available in the pre-built firmware but they have their definitions in the `mpconfigboard.h` file. These are only my choices, you may use any other pins, which were sated in the comment as `Valid`. Default `USART-REPL` is on `USART6`.
+Things that in `()` are not available in the pre-built firmware but they have their definitions in the `mpconfigboard.h` file. These are only my choices, you may use any other pins, which were sated in the comment as `Valid`. Default `USART-REPL` is on `USART1`.
 
 ### Common
 
@@ -24,17 +22,17 @@ Things that in `()` are not available in the pre-built firmware but they have th
 | SCL  | B8   |
 | SDA  | B9   |
 
-| SPI    | SPI1   | SPI2   | SPI3   |
-| ------ | ------ | ------ | ------ |
-| NSS    | A4     | B12    | A15    |
-| SCK    | A5     | B13    | B3     |
-| MISO   | A6     | B14    | B4     |
-| MOSI   | A7     | B15    | B5     |
+| SPI    | SPI1   | SPI2   |
+| ------ | ------ | ------ |
+| NSS    | A4     | B12    |
+| SCK    | A5     | B13    |
+| MISO   | A6     | B14    |
+| MOSI   | A7     | B15    |
 
-| CAN  | CAN1 | CAN2 |
-| ---- | ---- | ---- |
-| TX   | B9   | B6   |
-| RX   | B8   | B5   |
+| CAN  | CAN1 |
+| ---- | ---- |
+| TX   | B9   |
+| RX   | B8   |
 
 | LED  | KEY | USB_DM | USB_DP |
 | ---- | --- | ------ | ------ |
@@ -44,23 +42,93 @@ Things that in `()` are not available in the pre-built firmware but they have th
 | ------ | ------ | ----- | ----- | ----- | ----- | --------- |
 | C12    | D2     | C8    | C9    | C10   | C11   | A8        |
 
+### STM32F405RG
+| USART  | UART4 |
+| ------ | ----- |
+| TX     | A1    |
+| RX     | A0    |
+
+| I2C  | I2C2  |
+| ---- | ----- |
+| SCL  | B10   |
+| SDA  | B11   |
+
+| SPI    | SPI3   |
+| ------ | ------ |
+| NSS    | A15    |
+| SCK    | B3     |
+| MISO   | B4     |
+| MOSI   | B5     |
+
+### STM32F446RE
+| USART  | UART4 |
+| ------ | ----- |
+| TX     | A1    |
+| RX     | A0    |
+
+| I2C  | I2C2 |
+| ---- | ---- |
+| SCL  | B10  |
+| SDA  | B3   |
+
+### STM32F412RE
+| I2C  | I2C2 |
+| ---- | ---- |
+| SCL  | B10  |
+| SDA  | B3   |
+
+| CAN  | CAN2 |
+| ---- | ---- |
+| TX   | B6   |
+| RX   | B5   |
+
 ## Storage modification
 
-If changing the flash layout is at your interest, you can modify the following section the `.ld` file. 
-```ld
-MEMORY
-{
-    FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 512K /* entire flash */
-    FLASH_ISR (rx)  : ORIGIN = 0x08000000, LENGTH = 16K /* sector 0 */
-    /* This is your space for storing Code. */
-    FLASH_FS (rx)   : ORIGIN = 0x08004000, LENGTH = 176K /* sectors 1,2,3,4,5: 16k+16k+16k+64K+64K(of 128K)=176K */
-    /* This is where the firmware is stored. */
-    FLASH_TEXT (rx) : ORIGIN = 0x08030000, LENGTH = 320K /* sectors 5, 6, 7: 64K(of 128K)+128K+128K=320K */
-    RAM (xrw)       : ORIGIN = 0x20000000, LENGTH = 112K
-    FS_CACHE (xrw)  : ORIGIN = 0x2001c000, LENGTH = 16K
-}
+If you wish to make changes to the flash layouts, please visit [https://github.com/nspsck/STM32F411CEU6_BlackPill_Micropython#storage-modification](https://github.com/nspsck/STM32F411CEU6_BlackPill_Micropython#storage-modification) for a short guide. Tho, this should not be necessary, since all the boards comes with SDCard slot.
+
+## Lfs2 Support
+
+`Lfs2` is a little fail-safe filesystem designed for microcontrollers that supports dynamic wear leveling, which is quiet useful when you are using the internal flash to log datas, since `FAT` does not have a wear leveling implementation and you will be wearing off your 10K cycles quiet fast.
+
+To format the filesystem to `Lfs2` you can simply excute the following code:
+
+```python
+import os, pyb
+os.umount('/flash')
+os.VfsLfs2.mkfs(pyb.Flash(start=0))
+os.mount(pyb.Flash(start=0), '/flash')
+os.chdir('/flash')
 ```
-Please make sure you modify the `TEXT0_ADDR` and `TEXT1_ADDR` in `mpconfigboard.mk` as well if you intend to use `.bin` files. Tho, you can also just delete these 2 lines and just use the `.hex` file. Please do not change RAM settings unless you know what you are doing. Also, the `STM32F446` is not like the other boards, it seems like it requires the `FLASH_TEXT` to start at a section's beginning. Please keep that in mind.
+
+To avoid the annoying Windows formatation message, add the following to `boot.py`:
+
+```python
+import pyb
+pyb.usb_mode('VCP') # This will change the COM-number on Windows.
+```
+
+To go back to `FAT`:
+
+```python
+import os, pyb
+os.umount('/flash')
+os.VfsFat.mkfs(pyb.Flash(start=0))
+os.mount(pyb.Flash(start=0), '/flash')
+os.chdir('/flash')
+```
+
+To use a hybrid mode:
+```python
+import os, pyb
+os.umount('/flash')
+p1 = pyb.Flash(start=0, len=256*1024) # You have to caculate the length by your self.
+p2 = pyb.Flash(start=256*1024) # You have to caculate the length by your self.
+os.VfsFat.mkfs(p1)
+os.VfsLfs2.mkfs(p2)
+os.mount(p1, '/flash')
+os.mount(p2, '/data')
+os.chdir('/flash')
+```
 
 ## How to build
 
@@ -88,3 +156,32 @@ There are 4 possible variants for the both of the boards: `DP`, `THREAD`, `DP_TH
 # DP_THREAD: Enables Thread and use double precision.
 make -j LTO=1 BOARD=WEACTF4xxRx BOARD_VARIANT=VARIANTS
 ```
+## How to Flash
+
+### Flashing the firmware
+You can flash the firmware by following the official guide on i.e. [https://micropython.org/download/NUCLEO_F411RE/](https://micropython.org/download/NUCLEO_F411RE/) for both `.hex` and `.dfu` file.
+
+### Mass erase
+
+`st-flash`:
+```shell
+st-flash erase
+```
+
+`STM32CubeProgrammer`:
+```shell
+STM32_Programmer.sh -c port=SWD -e all
+```
+
+`dfu-util`:
+```shell
+# You can save the following as a file and run it with: sh file.sh
+#!/bin/sh
+set -x
+echo -e -n "\xff" > ff.bin
+dfu-util -s :mass-erase:force -a 0 -d 0483:df11 -D ff.bin
+```
+
+### STM32CubeProgrammer
+
+In addtion to that, if you were using `STM32CubeProgrammer` with a GUI, everything should be very straight foward. And this is the most easy way to flash your device imo. There are 3 options available: `ST-Link, UART and USB` each corresponding to using a `st-link`, using a `uart-bridge` and using the built-in `dfu`.

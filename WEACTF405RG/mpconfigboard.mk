@@ -1,16 +1,15 @@
 MCU_SERIES = f4
 CMSIS_MCU = STM32F405xx
 AF_FILE = boards/stm32f405_af.csv
-
 ifeq ($(USE_MBOOT),1)
 # When using Mboot all the text goes together after the filesystem
 LD_FILES = boards/WEACTF405RG/stm32f405.ld boards/common_blifs.ld
-TEXT0_ADDR = 0x080A0000
+TEXT0_ADDR = 0x08020000
 else
 # When not using Mboot the ISR text goes first, then the rest after the filesystem
 LD_FILES = boards/WEACTF405RG/stm32f405.ld boards/common_ifs.ld
 TEXT0_ADDR = 0x08000000
-TEXT1_ADDR = 0x080A0000
+TEXT1_ADDR = 0x08020000
 endif
 
 # Provide different variants for the downloads page.
@@ -30,3 +29,6 @@ endif
 ifeq ($(BOARD_VARIANT),NETWORK)
 MICROPY_PY_NETWORK_WIZNET5K=5200
 endif
+
+# Micropython settings.
+MICROPY_VFS_LFS2 = 1

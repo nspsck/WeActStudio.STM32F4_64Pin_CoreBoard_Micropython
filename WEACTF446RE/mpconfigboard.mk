@@ -20,3 +20,6 @@ endif
 ifeq ($(BOARD_VARIANT),NETWORK)
 MICROPY_PY_NETWORK_WIZNET5K=5200
 endif
+
+# Micropython settings.
+MICROPY_VFS_LFS2 = 1

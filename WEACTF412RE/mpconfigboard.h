@@ -34,19 +34,19 @@
 #define MICROPY_HW_RTC_USE_CALOUT   (1)
 
 // UART config, 
-// USART1, USART2 and USART6 are unipin across all 3 definitions.
+// USART2 and USART6 are unipin across all 3 definitions.
 // USARTs
 #define MICROPY_HW_UART1_TX         (pin_A9) // Valid: PA9, PA15, PB6
 #define MICROPY_HW_UART1_RX         (pin_A10) // Valid: PA10, PB3, PB7
 #define MICROPY_HW_UART2_TX         (pin_A2) // Valid: PA2
 #define MICROPY_HW_UART2_RX         (pin_A3) // Valid: PA3
 // Currently interferes with I2C2.
-#define MICROPY_HW_UART3_TX         (pin_B10) // Valid: PB10, PC10
-#define MICROPY_HW_UART3_RX         (pin_C5) // Valid: PC11, PC5
+// #define MICROPY_HW_UART3_TX         (pin_B10) // Valid: PB10, PC10
+// #define MICROPY_HW_UART3_RX         (pin_C5) // Valid: PC11, PC5
 #define MICROPY_HW_UART6_TX         (pin_C6) // Valid: PA11, PC6
 #define MICROPY_HW_UART6_RX         (pin_C7) // Valid: PA12, PC7
 
-#define MICROPY_HW_UART_REPL        PYB_UART_6
+#define MICROPY_HW_UART_REPL        PYB_UART_1
 #define MICROPY_HW_UART_REPL_BAUD   115200
 
 // I2C buses
@@ -71,10 +71,10 @@
 #define MICROPY_HW_SPI2_MISO        (pin_B14) // Valid: PB14, PC2
 #define MICROPY_HW_SPI2_MOSI        (pin_B15) // Valid: PB15, PC3
 // Currently interferes with I2C2 and CAN2.
-#define MICROPY_HW_SPI3_NSS         (pin_A15) // Valid: PA4, PA15
-#define MICROPY_HW_SPI3_SCK         (pin_B3) // Valid: PB3, PB12, PC10
-#define MICROPY_HW_SPI3_MISO        (pin_B4) // Valid: PB4, PC11
-#define MICROPY_HW_SPI3_MOSI        (pin_B5) // Valid: PB5, PC12
+// #define MICROPY_HW_SPI3_NSS         (pin_A15) // Valid: PA4, PA15
+// #define MICROPY_HW_SPI3_SCK         (pin_B3) // Valid: PB3, PB12, PC10
+// #define MICROPY_HW_SPI3_MISO        (pin_B4) // Valid: PB4, PC11
+// #define MICROPY_HW_SPI3_MOSI        (pin_B5) // Valid: PB5, PC12
 // Disabled because the ports are too weird and interfered with SPI2.
 // In addition, this saves space.
 // #define MICROPY_HW_SPI4_NSS         (pin_B12) // Valid: PB12

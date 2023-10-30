@@ -1,8 +1,5 @@
 /*
     GNU linker script for STM32F446.
-    Note unlike the F411, F412 series, you can not further expand the
-    FLASH_FS sector. The FLASH_TEXT sector seems like to have to start
-    at a sector's beginning.
 */
 
 /* Specify the memory areas */
@@ -10,7 +7,7 @@ MEMORY
 {
     FLASH (rx)      : ORIGIN = 0x08000000, LENGTH = 512K /* entire flash */
     FLASH_ISR (rx)  : ORIGIN = 0x08000000, LENGTH = 16K /* sector 0 */
-    FLASH_FS (rx)   : ORIGIN = 0x08004000, LENGTH = 112K /* sectors 1,2,3,4: 16K+16K+16K+64K=112K*/
+    FLASH_FS (rx)   : ORIGIN = 0x08004000, LENGTH = 64K /* sectors 1,2,3,4: 16k+16k+16k+16k(of 64k)=64k */
     FLASH_TEXT (rx) : ORIGIN = 0x08020000, LENGTH = 384K /* sectors 5,6,7 are 128K */
     RAM (xrw)       : ORIGIN = 0x20000000, LENGTH = 112K
     FS_CACHE (xrw)  : ORIGIN = 0x2001c000, LENGTH = 16K
