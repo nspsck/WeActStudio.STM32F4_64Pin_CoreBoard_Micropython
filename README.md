@@ -2,13 +2,13 @@
 
 This port gives you a py-board-like experience using the STM32F446RE, STM32F412RE and STM32F405RG core boards created by WeAct Studio.
 
-The pre-built firmware could be found in each target's folder.
+The pre-built firmware could be found in each target's folder. (`NO_CONFLICT` version only.)
 
 The pins/features-configurations are final, changes will only be done when forced by Micropython updates.
 
 ## Pins definition
 
-Things that in `()` are not available in the pre-built firmware but they have their definitions in the `mpconfigboard.h` file. These are only my choices, you may use any other pins, which were sated in the comment as `Valid`. Default `USART-REPL` is on `USART1`.
+Things that in `()` are not available in the pre-built firmware but they have their definitions in the `mpconfigboard.h` file. These are only my choices, you may use any other pins, which were sated in the comment as `Valid`. Default `USART-REPL` is on `USART1`. Note that `B11` is not available on both `F412RE` and `F446RE`.
 
 ### Common
 
