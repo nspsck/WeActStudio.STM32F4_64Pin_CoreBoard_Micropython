@@ -156,6 +156,29 @@ There are 4 possible variants for the both of the boards: `DP`, `THREAD`, `DP_TH
 # DP_THREAD: Enables Thread and use double precision.
 make -j LTO=1 BOARD=WEACTF4xxRx BOARD_VARIANT=VARIANTS
 ```
+
+### User C modules
+If you wish to add some C modules, e.g. [a st7735 driver](https://github.com/nspsck/st7735s_WeAct_Studio_TFT_port/tree/main) you have to do the following:
+```shell
+make -j LTO=1 BOARD=WEACTF4xxRx USER_C_MODULES=~/lcd_c_modules/st7789mod/ CFLAGS_EXTRA=-DMODULE_EXAMPLE_ENABLED=1 
+```
+change `~/lcd_c_modules/st7789mod/` to the directory where your modules are located at. Under that directory has to be a `microptyhon.cmake` file which includes includes all of the modules you want to have available. Something like this:
+```cmake
+include(${CMAKE_CURRENT_LIST_DIR}/st7789/micropython.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/example1/micropython.cmake)
+include(${CMAKE_CURRENT_LIST_DIR}/example2/micropython.cmake)
+```
+### Frozen contents
+If you wish to freeze some `.py` modules to your firmware, e.g. some fonts files, you can do something like this:
+
+- Step 1: create a directory called `modules` under `ports/stm32`.
+- Step 2: put all the `.py` files into the `modules` folder.
+- Step 3: add the following line to the `manifest.py` under `ports/stm32/boards`.
+```python
+freeze("$(PORT_DIR)/modules")
+```
+Now you can just run the building command normally and everything in the `modules` folder will be frozen to the firmware.
+
 ## How to Flash
 
 ### Flashing the firmware
