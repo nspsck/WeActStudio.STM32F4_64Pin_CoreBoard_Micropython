@@ -22,4 +22,4 @@ MICROPY_PY_NETWORK_WIZNET5K=5200
 endif
 
 # Micropython settings.
-MICROPY_VFS_LFS2 = 1
+MICROPY_VFS_LFS2 ?= 1
